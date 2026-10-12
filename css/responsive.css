@@ -1,0 +1,68 @@
+/* =========================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================= */
+
+/* Small phones */
+@media (max-width: 480px) {
+  .section { padding: var(--space-lg) 0; }
+  .hero__title { font-size: clamp(2rem, 8vw, 2.8rem); }
+  .hero__line { font-size: clamp(1.2rem, 6vw, 1.6rem); }
+  .research-stat { grid-template-columns: 1fr; gap: 0.4rem; }
+  .research-stat__value { text-align: left; }
+  .story__text { font-size: clamp(1.6rem, 8vw, 2.2rem); }
+  .story__scene--words span { font-size: clamp(1.3rem, 7vw, 1.8rem); }
+  .modal__panel { padding: var(--space-md) 1rem 1.5rem; }
+  #passwordForm { flex-direction: column; align-items: stretch; }
+  #passwordForm .modal__input { width: 100%; letter-spacing: 0.35em; }
+  #passwordForm .btn { width: 100%; justify-content: center; }
+  .letter__paper { padding: 1rem; font-size: 1rem; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .constellation { min-height: 260px; aspect-ratio: 4 / 5; }
+  .love-list li { font-size: var(--step-1); }
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  .effect-grid { grid-template-columns: repeat(3, 1fr); }
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .gallery-grid { grid-template-columns: repeat(4, 1fr); }
+  .research-stat { grid-template-columns: 220px 1fr 100px; }
+}
+
+/* Large desktop */
+@media (min-width: 1440px) {
+  .container { width: min(1240px, 90%); }
+}
+
+/* Touch devices: disable hover-dependent affordances, ensure tap targets */
+@media (hover: none) {
+  .cursor-dot, .cursor-ring { display: none !important; }
+  .effect-card:active { border-color: var(--gold); }
+  .btn, .star, .gallery-item { min-height: 44px; }
+}
+
+/* Prevent horizontal scroll on very narrow screens */
+@media (max-width: 340px) {
+  .container { width: 94%; }
+  .hero__date { letter-spacing: 0.08em; }
+}
+
+/* Hide the scrollbar on mobile and tablet viewports only — desktop
+   keeps its native scrollbar since that's expected there. Scrolling
+   itself still works exactly the same; only the visible track/thumb
+   is removed for a cleaner, more app-like feel on smaller screens. */
+@media (max-width: 1024px) {
+  html, body {
+    scrollbar-width: none;      /* Firefox */
+    -ms-overflow-style: none;   /* old Edge / IE */
+  }
+  html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;              /* Chrome, Safari, newer Edge */
+    width: 0;
+    height: 0;
+  }
+}

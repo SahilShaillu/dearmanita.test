@@ -1,0 +1,55 @@
+/* =========================================================
+   KEYFRAME ANIMATIONS
+   ========================================================= */
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+@keyframes scrollWheel {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(14px); opacity: 0; }
+  71% { transform: translateY(0); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+@keyframes modalShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-10px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(4px); }
+}
+
+@keyframes letterReveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes stepIn {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.effect-card { animation: floatY 6s ease-in-out infinite; }
+.effect-card:nth-child(2n) { animation-delay: 1.2s; }
+.effect-card:nth-child(3n) { animation-delay: 2.4s; }
+
+@keyframes magneticPulse {
+  0%, 100% { box-shadow: 0 10px 30px -10px rgba(107,30,46,0.6); }
+  50% { box-shadow: 0 14px 40px -8px rgba(201,123,135,0.7); }
+}
+.magnetic { animation: magneticPulse 3.2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .effect-card, .magnetic { animation: none; }
+}

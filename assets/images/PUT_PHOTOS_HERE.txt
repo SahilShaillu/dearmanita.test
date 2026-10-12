@@ -1,0 +1,20 @@
+Put your square (1:1) photos in this folder, named:
+
+photo-01.jpg
+photo-02.jpg
+photo-03.jpg
+photo-04.jpg
+photo-05.jpg
+photo-06.jpg
+photo-07.jpg
+photo-08.jpg
+
+You can add more slots or rename them — just update the `galleryImages`
+array at the top of js/gallery.js to match.
+
+Until real photos are added, the gallery will automatically show an
+elegant "A beautiful memory will go here ❤️" placeholder instead of a
+broken image icon, so the site works perfectly before you add photos.
+
+Delete this text file once you've added your images (it is not
+referenced anywhere and is completely safe to remove).
