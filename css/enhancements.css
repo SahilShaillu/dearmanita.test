@@ -1,0 +1,169 @@
+/* =========================================================
+   enhancements.css
+   Purely additive polish layer (loaded after responsive.css).
+   Everything here is driven by js/enhancements.js and only uses
+   opacity / transform / the individual `rotate` + `translate`
+   properties, so it never fights the site's existing animations.
+   ========================================================= */
+
+/* ---------- 1. Floating petals ---------- */
+.fx-petals {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.fx-petal {
+  position: absolute;
+  top: -24px;
+  left: var(--x, 50%);
+  width: var(--s, 14px);
+  height: var(--s, 14px);
+  border-radius: 150% 0 150% 0;
+  background: linear-gradient(135deg, rgba(243,214,220,0.95), rgba(201,123,135,0.75));
+  opacity: 0.5;
+  animation: fxPetalFall var(--d, 16s) linear infinite;
+  animation-delay: var(--dl, 0s);
+}
+@keyframes fxPetalFall {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
+  25%  { transform: translate3d(calc(var(--dx, 40px) * .6), calc(var(--fall, 800px) * .25), 0) rotate(110deg); }
+  50%  { transform: translate3d(calc(var(--dx, 40px) * -.4), calc(var(--fall, 800px) * .5), 0) rotate(230deg); }
+  75%  { transform: translate3d(var(--dx, 40px), calc(var(--fall, 800px) * .75), 0) rotate(330deg); }
+  100% { transform: translate3d(calc(var(--dx, 40px) * .2), var(--fall, 800px), 0) rotate(430deg); }
+}
+.fx-petals:not(.is-on) .fx-petal { animation-play-state: paused; }
+
+/* ---------- 2. Soft glow that follows the pointer (desktop only) ---------- */
+.fx-glow {
+  position: fixed;
+  left: 0; top: 0;
+  width: 380px; height: 380px;
+  margin: -190px 0 0 -190px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,123,135,0.20) 0%, rgba(198,161,91,0.07) 40%, transparent 68%);
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity .6s ease;
+  will-change: transform;
+}
+.fx-glow.is-on { opacity: 1; }
+
+/* ---------- 3. Tap ripple + tiny heart burst ---------- */
+.fx-layer {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2000;
+  contain: layout paint style;
+}
+.fx-ripple {
+  position: absolute;
+  width: 84px; height: 84px;
+  margin: -42px 0 0 -42px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201,123,135,0.85);
+  animation: fxRipple .7s cubic-bezier(.22,.9,.32,1) forwards;
+}
+@keyframes fxRipple {
+  from { transform: scale(0.17); opacity: 0.9; }
+  to   { transform: scale(1); opacity: 0; }
+}
+.fx-heart {
+  position: absolute;
+  margin: -6px 0 0 -6px;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--rose);
+  animation: fxHeart .9s cubic-bezier(.22,.9,.32,1) forwards;
+}
+@keyframes fxHeart {
+  from { transform: translate3d(0, 0, 0) scale(.6); opacity: 1; }
+  to   { transform: translate3d(var(--hx, 0px), var(--hy, -40px), 0) scale(1.1); opacity: 0; }
+}
+
+/* ---------- 4. Gold shimmer on key words ---------- */
+/* Only drawn where background-clip:text works; elsewhere the plain colour
+   from style.css stays. The animation pauses while off screen (the
+   .is-offscreen class from animations.js) and under reduced motion. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .word-stack__item--final.is-visible,
+  .prose--emphasis {
+    --shim-base: var(--burgundy);
+    background-image: linear-gradient(100deg, var(--shim-base) 0%, var(--shim-base) 42%, #E8CF8F 50%, var(--shim-base) 58%, var(--shim-base) 100%);
+    background-size: 260% 100%;
+    background-position: 120% 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fxShimmer 7s ease-in-out infinite;
+  }
+  .section--dark .prose--emphasis { --shim-base: var(--gold); }
+}
+@keyframes fxShimmer {
+  0%, 55% { background-position: 120% 0; }
+  100%    { background-position: -20% 0; }
+}
+
+/* ---------- 5. Polaroid gallery ---------- */
+/* `rotate` / `translate` are separate from `transform`, so the existing
+   reveal, float and Ken Burns animations keep working untouched. */
+.gallery-item {
+  isolation: isolate;               /* Safari: keeps the rounded clip while children animate */
+  border-radius: 6px;
+  border-color: rgba(255,253,249,0.9);
+  box-shadow: 0 14px 30px -14px rgba(0,0,0,0.6);
+  transition: opacity .8s var(--ease-soft), transform .8s var(--ease-soft), filter .8s var(--ease-soft),
+              rotate .5s var(--ease-soft), translate .5s var(--ease-soft), box-shadow .5s var(--ease-soft);
+}
+.gallery-item:nth-child(4n+1) { rotate: -2.2deg; }
+.gallery-item:nth-child(4n+2) { rotate: 1.6deg; }
+.gallery-item:nth-child(4n+3) { rotate: -1deg; }
+.gallery-item:nth-child(4n)   { rotate: 2.2deg; }
+/* white polaroid border painted over the photo edges */
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 8px solid var(--white);
+  border-bottom-width: 32px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+}
+.gallery-item__caption {
+  z-index: 3;
+  bottom: 0;
+  height: 32px;
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-accent);
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  background: none;
+}
+.gallery-item:focus-visible { rotate: 0deg; z-index: 4; }
+@media (hover: hover) {
+  .gallery-item:hover, .gallery-item:focus-visible {
+    rotate: 0deg;
+    translate: 0 -6px;
+    z-index: 4;
+    box-shadow: 0 26px 44px -16px rgba(0,0,0,0.7);
+  }
+}
+
+/* ---------- Motion safety ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fx-petals, .fx-glow, .fx-layer { display: none; }
+  .word-stack__item--final.is-visible, .prose--emphasis { animation: none; }
+}
