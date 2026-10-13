@@ -431,39 +431,27 @@
   }
 
   /* ---------- Start / restart wiring ---------- */
-  if (nameForm && nameInput) {
+   currentPlayer = "Player";
+
+  if (startBtn) {
+    startBtn.addEventListener("click", startGame);
+  }
+
+  if (nameForm) {
     nameForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = cleanName(nameInput.value);
-      if (!name) {
-        setText(nameError, "Please enter your name first. \ud83d\ude0a");
-        nameInput.focus();
-        return;
-      }
-      setText(nameError, "");
-      currentPlayer = name;
-      nameInput.blur(); // closes the on-screen keyboard on phones before play starts
-      startGame();
-    });
-    nameInput.addEventListener("input", () => setText(nameError, ""));
-  } else if (startBtn) {
-    // No name form in the markup: the Start button simply starts the game.
-    startBtn.addEventListener("click", () => {
-      if (!currentPlayer) currentPlayer = FALLBACK_PLAYER;
       startGame();
     });
   }
 
-  // Play Again keeps the same player; Change player returns to name entry.
-  if (restartBtn) restartBtn.addEventListener("click", startGame);
+  if (restartBtn) {
+    restartBtn.addEventListener("click", startGame);
+  }
+
   if (changePlayerBtn) {
     changePlayerBtn.addEventListener("click", () => {
       setHidden(overlayEnd, true);
-      setHidden(overlayStart, false);
-      if (nameInput) {
-        nameInput.value = "";
-        nameInput.focus({ preventScroll: true });
-      }
+      startGame();
     });
   }
 
