@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Just For You, MANITA ❤️</title>
+<link rel="icon" type="image/png" href="assets/images/logo.png">
+<link rel="apple-touch-icon" href="assets/images/logo.png">
+<meta name="description" content="A private little corner of MANITA's birthday surprise. ❤️">
+<meta name="theme-color" content="#3D0B14">
+<meta property="og:title" content="Just For You, MANITA ❤️">
+<meta property="og:description" content="A private little corner of MANITA's birthday surprise. ❤️">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/enhancements.css">
+<!-- Intro gate: holds the page content back until the volume dialog (js/intro-music.js) has been
+     answered. Then window.VishiiSiteLoader.start() runs the site's own scripts (the ones marked
+     type="text/vmp-deferred" at the bottom of this page) and reveals the content. Safety net: if
+     intro-music.js never starts, the site loads by itself 3 seconds after the page loads. -->
+<style>
+/* Held back until the "Turn up your volume" dialog (js/intro-music.js) is answered */
+html.vmp-gate-active { overflow: hidden; background: var(--wine-deep, #260710); }
+html.vmp-gate-active body { background: var(--wine-deep, #260710); }
+html.vmp-gate-active body > :not(.bgm-intro):not(script) { visibility: hidden; }
+</style>
+<script>
+(function (d) {
+  var h = d.documentElement, started = false;
+  h.classList.add("vmp-gate-active");
+  window.VishiiSiteLoader = {
+    start: function () {
+      if (started) return;
+      started = true;
+      var list = [].slice.call(d.querySelectorAll('script[type="text/vmp-deferred"]')), i = 0;
+      (function next() {
+        if (i >= list.length) {
+          d.dispatchEvent(new Event("DOMContentLoaded"));
+          h.classList.remove("vmp-gate-active");
+          return;
+        }
+        var src = list[i++], s = d.createElement("script"), url = src.getAttribute("src");
+        if (url) { s.src = url; s.onload = s.onerror = next; d.body.appendChild(s); }
+        else { s.text = src.text; d.body.appendChild(s); next(); }
+      })();
+    }
+  };
+  window.addEventListener("load", function () {
+    setTimeout(function () { if (!window.VishiiIntroGate) window.VishiiSiteLoader.start(); }, 3000);
+  });
+})(document);
+</script>
+</head>
+<body>
+
+<!-- Skip link for accessibility -->
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- Custom cursor (desktop only, injected by JS) -->
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- Progress bar -->
+<div class="scroll-progress" aria-hidden="true"><div class="scroll-progress__fill" id="scrollProgressFill"></div></div>
+
+<main id="main">
+  <!-- 00. BIRTHDAY INTRO — plays 0.5s after load. CSS-only motion
+       (transform/opacity); decorative layers are aria-hidden; static
+       when reduced motion is on. The only JS is the tiny heart-tap
+       sparkle at the bottom of this file. -->
+  <section class="b-intro" aria-label="Happy Birthday MANITA">
+    <div class="b-intro__orb b-intro__orb--rose" aria-hidden="true"></div>
+    <div class="b-intro__orb b-intro__orb--gold" aria-hidden="true"></div>
+    <div class="b-intro__trails" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="b-intro__dust" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+
+
+    <div class="b-intro__card">
+      <button class="b-intro__heart" id="introHeart" type="button" aria-label="Send a little love">
+        <span class="b-intro__ring b-intro__ring--1" aria-hidden="true"></span>
+        <span class="b-intro__ring b-intro__ring--2" aria-hidden="true"></span>
+        <span class="b-intro__orbit" aria-hidden="true"></span>
+        <svg viewBox="0 0 100 90" aria-hidden="true"><path d="M50 85 C 10 55, -5 25, 20 10 C 38 -2, 50 12, 50 22 C 50 12, 62 -2, 80 10 C 105 25, 90 55, 50 85 Z"/></svg>
+      </button>
+
+      <h1 class="b-intro__title">
+        <span class="b-intro__line">Happy Birthday</span>
+        <span class="b-intro__name">MANITA</span>
+      </h1>
+
+      <!-- "You're my [word].." — the bold word (its dots included) is typed and
+           deleted by the script at the bottom of this file. The fallback
+           content below (EVERYTHING.) shows without JS or with reduced motion. -->
+      <p class="b-intro__notes">
+        <span class="b-intro__sr">You&rsquo;re my Mannat, Sukoon, Heart, Peace, Mehar, Hope, Ishq, Comfort, Rooh, Khushi, Zindagi, everything.</span>
+        <span class="b-intro__type" aria-hidden="true">
+          <span class="b-intro__static">You&rsquo;re my</span>
+          <span class="b-intro__slot">
+            <span class="b-intro__ghost">EVERYTHING.</span>
+            <b class="b-intro__word" id="introWord">EVERYTHING.</b>
+          </span>
+        </span>
+      </p>
+    </div>
+
+    <div class="b-intro__burst" id="introBurst" aria-hidden="true"></div>
+
+    <span class="b-intro__spark b-intro__spark--1" aria-hidden="true">&#10024;</span>
+    <span class="b-intro__spark b-intro__spark--2" aria-hidden="true">&#128171;</span>
+    <span class="b-intro__spark b-intro__spark--3" aria-hidden="true">&#10084;&#65039;</span>
+    <span class="b-intro__spark b-intro__spark--4" aria-hidden="true">&#11088;</span>
+
+    <div class="b-intro__cue" aria-hidden="true">
+      <span class="scroll-indicator__mouse"><span class="scroll-indicator__wheel"></span></span>
+    </div>
+  </section>
+
+  <!-- 01. TODAY YOU ARE THE CEO -->
+  <section class="section section--light section--ceo" aria-label="Today you are the CEO">
+    <div class="container container--narrow">
+      <p class="eyebrow-free-heading">Promotion Notice</p>
+      <h2 class="section-title">CEO Of Being Spoiled</h2>
+      <p class="prose">Congratulations, MANITA. You have been promoted to:</p>
+      <p class="prose prose--emphasis">CEO &mdash; Chief Everything Officer</p>
+      <div class="content-columns">
+        <div class="content-column">
+          <h3>Your responsibilities</h3>
+          <ul class="content-list">
+            <li>Look cute</li>
+            <li>Be adorable</li>
+            <li>Receive attention</li>
+            <li>Accept compliments</li>
+            <li>Smile</li>
+            <li>Let yourself be pampered</li>
+          </ul>
+        </div>
+        <div class="content-column">
+          <h3>My responsibilities</h3>
+          <ul class="content-list">
+            <li>Spoil you</li>
+            <li>Make you laugh</li>
+            <li>Take care of you</li>
+            <li>Listen to your random stories</li>
+            <li>Remind you how loved you are</li>
+            <li>Make sure you never forget how special you are</li>
+          </ul>
+        </div>
+      </div>
+      <p class="prose"><strong>Salary:</strong> Unlimited love <span aria-hidden="true">❤️</span></p>
+      <p class="prose"><strong>Working hours:</strong> 24/7</p>
+      <p class="prose"><strong>Leave policy:</strong> Rejected. I need you here. <span aria-hidden="true">😌</span></p>
+    </div>
+  </section>
+
+  <!-- 02. PRINCESS TREATMENT DEPARTMENT -->
+  <section class="section section--dark section--princess" aria-label="Princess treatment department">
+    <div class="container container--narrow">
+      <p class="eyebrow-free-heading">Service Receipt</p>
+      <h2 class="section-title section-title--light">Welcome To The Princess Treatment Department</h2>
+      <p class="prose">Your request has been   received.</p>
+      <ul class="content-list content-list--receipt">
+        <li><strong>Priority:</strong> Extremely Important</li>
+        <li><strong>Customer:</strong> MANITA</li>
+        <li><strong>Status:</strong> Princess</li>
+        <li><strong>Treatment Level:</strong> Maximum</li>
+      </ul>
+      <p class="prose">Available services:</p>
+      <ul class="content-list">
+        <li>😘 Random kisses</li>
+        <li>👑 Royal treatment</li>
+        <li>🫂 Emergency hugs</li>
+        <li>🥺 Emotional support</li>
+        <li>🍫 Chocolate delivery</li>
+        <li>💗 Unlimited affection</li>
+        <li>😂 Unlimited nonsense</li>
+        <li>🛡️ Full-time protection</li>
+        <li>💌 Random Reminders of &ldquo;How Much You Mean to Me&ldquo;</li>
+      </ul>
+      <p class="disclaimer">Terms &amp; Conditions: you deserve all of it.</p>
+    </div>
+  </section>
+
+  <!-- 03. CINEMATIC SCROLL STORY -->
+  <section class="section section--story" id="storySection" aria-label="Our story">
+    <div class="story__track" id="storyTrack">
+      <div class="story__pin">
+        <div class="story__scene"><p class="story__text">Then there was you.</p></div>
+        <div class="story__scene">
+          <svg class="story__heart" viewBox="0 0 100 90" aria-hidden="true"><path d="M50 85 C 10 55, -5 25, 20 10 C 38 -2, 50 12, 50 22 C 50 12, 62 -2, 80 10 C 105 25, 90 55, 50 85 Z"/></svg>
+          <p class="story__text">And somehow&hellip;</p>
+        </div>
+        <div class="story__scene"><p class="story__text">Life became a little more interesting.</p></div>
+        <div class="story__scene story__scene--words">
+          <span>Laughs.</span><span>Fights.</span><span>Calls.</span><span>Messages.</span><span>Nakhre.</span><span>Memories.</span>
+        </div>
+        <div class="story__scene"><p class="story__text story__text--final">&ldquo;And I wouldn&rsquo;t want it any other way.&rdquo; <span aria-hidden="true">❤️</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04. YOUR OFFICIAL PAMPERING MENU -->
+  <section class="section section--dark section--pampering" aria-label="Your official pampering menu">
+    <div class="container">
+      <p class="eyebrow-free-heading">Menu</p>
+      <h2 class="section-title section-title--light">Choose Your Treatment, Princess.</h2>
+      <p class="section-subtitle section-subtitle--light">Tap a package.</p>
+      <div class="effect-grid" id="pamperingGrid">
+        <button class="effect-card" type="button">
+          <h3>🥺 The &ldquo;I Need Attention&rdquo; Package</h3>
+          <p class="effect-card__reveal">Unlimited attention + cuddles + reassurance.</p>
+        </button>
+        <button class="effect-card" type="button">
+          <h3>🫂 The &ldquo;Bad Day&rdquo; Package</h3>
+          <p class="effect-card__reveal">One giant hug + listening session + &ldquo;everything will be okay.&rdquo;</p>
+        </button>
+        <button class="effect-card" type="button">
+          <h3>🍫 The &ldquo;I Deserve Something&rdquo; Package</h3>
+          <p class="effect-card__reveal">Chocolate + snacks + absolutely no questions asked.</p>
+        </button>
+        <button class="effect-card" type="button">
+          <h3>👑 The &ldquo;Princess Mode&rdquo; Package</h3>
+          <p class="effect-card__reveal">Maximum pampering + compliments + royal treatment.</p>
+        </button>
+        <button class="effect-card" type="button">
+          <h3>😂 The &ldquo;Make Me Laugh&rdquo; Package</h3>
+          <p class="effect-card__reveal">My questionable jokes &mdash; use at your own risk.</p>
+        </button>
+        <button class="effect-card" type="button">
+          <h3>❤️ The &ldquo;I Just Want You&rdquo; Package</h3>
+          <p class="effect-card__reveal">No plans. No distractions. Just us.</p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05. MY SURVIVAL GUIDE -->
+  <section class="section section--light section--guide" aria-label="My survival guide">
+    <div class="container container--narrow">
+      <h2 class="section-title">My Survival Guide</h2>
+      <ol class="guide-list">
+        <li><span class="guide-list__rule">Rule #1</span> If she says <q>I&rsquo;m not angry.</q> &mdash; assume the opposite.</li>
+        <li><span class="guide-list__rule">Rule #2</span> If she says <q>Do whatever you want.</q> &mdash; DO NOT do whatever you want.</li>
+        <li><span class="guide-list__rule">Rule #3</span> If she says <q>Nothing.</q> &mdash; there is definitely something.</li>
+        <li><span class="guide-list__rule">Rule #4</span> Compliment immediately.</li>
+        <li><span class="guide-list__rule">Rule #5</span> When in doubt: <q>Say sorry ❤️</q></li>
+      </ol>
+      <button class="btn btn--outline" id="emergencyBtn">I need help <span aria-hidden="true">😭</span></button>
+      <ol class="emergency-steps" id="emergencySteps" hidden>
+        <li>Step 1: Apologize.</li>
+        <li>Step 2: Bring food.</li>
+        <li>Step 3: Compliment the birthday girl.</li>
+        <li>Step 4: Pray. <span aria-hidden="true">😂</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 06. WHEN YOU NEED A LITTLE EXTRA LOVE -->
+  <section class="section section--light section--extra-love" aria-label="When you need a little extra love">
+    <div class="container container--narrow">
+      <h2 class="section-title">For The Days When You Don&rsquo;t Feel Your Best&hellip;</h2>
+      <ul class="content-list content-list--plain">
+        <li>If one day you&rsquo;re tired&hellip; I&rsquo;ll be there.</li>
+        <li>If you&rsquo;re sad&hellip; I&rsquo;ll listen.</li>
+        <li>If you&rsquo;re overthinking&hellip; I&rsquo;ll remind you to breathe.</li>
+        <li>If you feel like you&rsquo;re not enough&hellip; I&rsquo;ll remind you how incredibly special you are.</li>
+        <li>If you need silence&hellip; I&rsquo;ll stay quietly beside you.</li>
+        <li>If you need a hug&hellip; Come here. <span aria-hidden="true">🫂</span></li>
+      </ul>
+      <p class="prose">And if you ever forget how loved you are&hellip;</p>
+      <p class="prose prose--emphasis">Come back to this page.</p>
+      <p class="prose">I&rsquo;ll remind you again. <span aria-hidden="true">❤️</span></p>
+    </div>
+  </section>
+
+  <!-- 07. HEARTBEAT -->
+  <section class="section section--dark section--heartbeat" aria-label="Heartbeat">
+    <div class="container container--narrow">
+      <p class="heartbeat__text">Somewhere between all the laughs, fights, calls and random conversations&hellip;</p>
+      <svg class="heartbeat__line" viewBox="0 0 600 100" aria-hidden="true">
+        <path id="heartbeatPath" d="M0,50 L95,50 Q112,38 128,50 L148,50 L158,58 L172,6 L184,92 L198,50 L218,50 Q235,28 252,50 L600,50" />
+      </svg>
+      <p class="heartbeat__text">You became a part of my everyday life.</p>
+      <p class="heartbeat__final">&ldquo;And honestly&hellip; I love it.&rdquo; <span aria-hidden="true">❤️</span></p>
+    </div>
+  </section>
+
+  <!-- 08. CHOOSE YOUR BIRTHDAY SURPRISE -->
+  <section class="section section--light section--choice" aria-label="Choose your birthday surprise">
+    <div class="container container--narrow">
+      <h2 class="section-title">Okay&hellip; One Last Question.</h2>
+      <p class="iq__prompt">What would you like as a birthday gift from me?</p>
+      <p class="section-subtitle">Tap your answer &mdash; pick one.</p>
+      <div class="effect-grid" id="choiceGrid" role="radiogroup" aria-label="Birthday gift options">
+        <button class="effect-card" type="button" role="radio" aria-checked="false">
+          <h3>🎀 A &mdash; Give Me A Hug</h3>
+          <p class="effect-card__reveal">Excellent choice. Come here. <span aria-hidden="true">🫂</span></p>
+        </button>
+        <button class="effect-card" type="button" role="radio" aria-checked="false">
+          <h3>🍫 B &mdash; Give Me Chocolate</h3>
+          <p class="effect-card__reveal">Also acceptable. Honestly, I support this decision.</p>
+        </button>
+        <button class="effect-card" type="button" role="radio" aria-checked="false">
+          <h3>❤️ C &mdash; Give Me You</h3>
+          <p class="effect-card__reveal">Correct answer. Unfortunately, you&rsquo;re already mine. <span aria-hidden="true">😌❤️</span></p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09. BEFORE YOU GO / A CHHOTA SA NOTE FOR YOU -->
+  <section class="section section--light section--note-cta" aria-label="A note for you">
+    <div class="container container--narrow">
+      <h2 class="section-title">Before you go&hellip;</h2>
+      <p class="section-subtitle">There is one little thing I want you to read.</p>
+      <button class="btn btn--primary magnetic" id="openLetterBtn">Chhota sa note for Pookie <span aria-hidden="true">💌</span></button>
+    </div>
+  </section>
+
+  <!-- 10. PRIVATE LOVE LETTER MODAL — DO NOT MODIFY THE LETTER TEXT -->
+  <div class="modal modal--letter" id="letterModal" role="dialog" aria-modal="true" aria-labelledby="letterModalTitle" hidden>
+    <div class="modal__backdrop"></div>
+    <div class="modal__panel modal__panel--letter">
+      <button class="modal__close" id="letterModalClose" aria-label="Close letter">&times;</button>
+      <h3 id="letterModalTitle" class="letter__heading">For MANITA</h3>
+      <div class="letter__paper" id="letterPaper">
+       <p>Happy Birthday VISHII ❤️🎂</p>
+       <p>First of all, congratulations.. tum officially ek saal aur badi ho gayi ho. Lekin tension mat lo, mere liye tum abhi bhi utni hi cute ho.. bas thodi zyada dangerous. 😂</p>
+       <p>Sach btau toh mujhe samajh nahi aa raha ki kya bolou, because there’s so much I want to say. You are genuinely one of the most important persons in my life. 💗</p>
+       <p>Tumhare saath meri life kaafi interesting ho gayi hai.. kabhi hum itna haste hain ki kuch samajh hi nahi aata, aur kabhi tum mujhe aise daanti ho jaise main tumhara employee hoon aur maine 3 months ki salary chura li ho. 😂</p>
+       <p>Aur tumhara gussa.. uff. Kabhi tum itna gussa karti ho ki mujhe lagta hai bas ab toh meri life ka last episode chal raha hai. 😂 Main chup chaap tumhari baat sunta rehta hoon, aur andar se sochta hoon - “Haan ji, bilkul sahi keh rahi hain madam.” Please don't kill me after reading this. 😘</p>
+       <p>But honestly, mujhe tum'hari ye side bhi bohut cute lagti hai. Tum gussa karti ho, mujhe daanti ho, kabhi2 yell bhi karti ho.. but somewhere behind all that gussa is the person who cares about me so much.</p>
+       <p>And yes.. kabhi2 tum mujhe unnecessarily daanti ho. 🤔</p>
+       <p>Okay, maybe not unnecessarily.. according to you. 😅</p>
+       <p>But if someone asked me, “Would you rather have a peaceful life without her, or a slightly crazy life with her?” I’d choose the crazy one every single time. 😍 Because tumhare saath boring toh bilkul nahi hai. 🥰</p>
+       <p>I love all the little things about you - your smile, your voice, your random mood swings, your cute expressions, your overthinking, your nakhre, your anger.. basically poora package hi thoda pagal hai. 😂💝 But that's exactly why I love you.</p>
+       <p>I don't love just the sweet version of you. I love the real you. The girl who laughs with me. The girl who gets angry at me. The girl who sometimes yells at me. 😂 The girl who gets upset over little things. The girl who cares more than she says. And the girl who somehow manages to make me smile even when I don't feel like smiling.</p>
+       <p>You have become such a natural part of my life that sometimes I don't even realise how much you mean to me. Your messages, your calls, your little complaints, your gussa.. everything has become a part of my everyday life.</p>
+       <p>And honestly, I wouldn't want it any other way. I know I'm not always the easiest person to deal with either. I annoy you, irritate you, sometimes say stupid things, and then have the audacity to come back like nothing happened. 😂💖</p>
+       <p>But behind all my stupidity, there is one thing that has always been real - I love you. A lot. More than I probably say. More than I probably show. And definitely more than I know how to explain properly.</p>
+       <p>On your birthday, I just want you to be happy. I want you to smile, enjoy your day, take lots of pictures, and feel how special you actually are.</p>
+       <p>And I hope you always remember that there is one idiot here who will happily tolerate your gussa, your yelling, your nakhre and your “don't talk to me” waala attitude. 😂💕 Because you're worth it.</p>
+       <p>Thank you for being in my life. Thank you for all the laughs. Thank you for all the memories. Thank you even for the fights.. okay, maybe thoda less fights please. 😂😭 And most importantly, thank you for being you.</p>
+       <p>I genuinely love the person you are, and I'm really lucky that I get to call you mine. 💞</p>
+       <p>Happy Birthday, LOVE. 🎂❤️</p>
+       <p>Stay happy. Stay crazy. Keep smiling. And haan.. birthday hai tumhara, iska matlab ye nahi ki aaj mujhe daantna allowed hai. 😂 Actually.. okay, fine. Aaj bhi allowed hai. 😂❤️</p>
+       <p>I love you, so, so much. 💘🫶🏻</p>
+       <p>Now go enjoy your day, birthday girl. And please remember - you are very, very special to me. 💓</p>
+      </div>
+      <p class="letter__progress" id="letterProgress">A little more love to go&hellip; <span aria-hidden="true">❤️</span></p>
+      <p class="letter__end" id="letterEnd" hidden>End of note.<br>But definitely not the end of the love. <span aria-hidden="true">❤️</span></p>
+    </div>
+  </div>
+
+  <!-- 11. FINAL BIRTHDAY CELEBRATION -->
+  <section class="section section--dark section--finale" id="finaleSection" aria-label="Final celebration">
+    <div class="finale__sparkle-layer" id="finaleSparkleLayer" aria-hidden="true"></div>
+    <div class="container container--narrow finale__content">
+      <h2 class="section-title section-title--light">Happy Birthday, MANITA <span aria-hidden="true">❤️</span></h2>
+      <p class="finale__line">May this year bring you everything your heart quietly wishes for.</p>
+      <p class="finale__line">Keep smiling.<br>Keep being crazy.<br>Keep being you.</p>
+      <button class="finale__heart" id="finaleHeart" aria-label="Celebrate">
+        <svg viewBox="0 0 100 90"><path d="M50 85 C 10 55, -5 25, 20 10 C 38 -2, 50 12, 50 22 C 50 12, 62 -2, 80 10 C 105 25, 90 55, 50 85 Z"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- 36. FOOTER -->
+  <footer class="footer">
+    <p class="footer__text">Built with heart <span aria-hidden="true">🫀</span>, wrapped in love <span aria-hidden="true">💝</span></p>
+  </footer>
+</main>
+
+<!-- Toast for easter eggs -->
+<div class="egg-toast" id="eggToast" aria-live="polite"></div>
+
+<script type="text/vmp-deferred" src="js/effects.js"></script>
+<script type="text/vmp-deferred" src="js/animations.js"></script>
+<script type="text/vmp-deferred" src="js/gallery.js"></script>
+<script type="text/vmp-deferred" src="js/game.js"></script>
+<script type="text/vmp-deferred" src="js/main.js"></script>
+<script type="text/vmp-deferred" src="js/enhancements.js"></script>
+<script src="js/intro-music.js"></script>
+<script type="text/vmp-deferred">
+/* Birthday intro: tapping the heart releases a few sparkles. Reuses the
+   existing capped, CSS-animated spawnSparkles() from effects.js, so it
+   adds no animation loop of its own. */
+(function () {
+  var heart = document.getElementById("introHeart");
+  var layer = document.getElementById("introBurst");
+  if (!heart || !layer) return;
+  heart.addEventListener("click", function () {
+    var fx = window.VishiiEffects;
+    if (fx && fx.spawnSparkles) fx.spawnSparkles(layer, 6);
+    heart.classList.remove("is-tapped");
+    void heart.offsetWidth; /* restart the little pop */
+    heart.classList.add("is-tapped");
+  });
+})();
+</script>
+<script type="text/vmp-deferred">
+/* Birthday intro: "You're my [word].." typing loop.
+   Each word is typed with its dots ("Mannat..", and "EVERYTHING." with a
+   single dot): 0.1s per character -> hold 2s -> delete the whole thing in
+   0.4s -> next word immediately. Only "You're my" stays static.
+   Uses chained timeouts (no animation loop) and pauses while the intro is
+   off-screen or the tab is hidden. With reduced motion it stays static. */
+(function () {
+  var wordEl = document.getElementById("introWord");
+  if (!wordEl) return;
+
+  var WORDS = ["Mannat..", "Sukoon..", "Heart..", "Peace..", "Mehar..", "Hope..", "Ishq..", "Comfort..", "Rooh..", "Khushi..", "Zindagi..", "EVERYTHING."];
+  var TYPE_MS = 100, HOLD_MS = 2000, DELETE_MS = 400, START_MS = 2400;
+
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  wordEl.textContent = "";
+
+  var onScreen = true, pending = null;
+  function later(fn, ms) {
+    setTimeout(function () {
+      if (onScreen && !document.hidden) fn(); else pending = fn;
+    }, ms);
+  }
+  function resume() {
+    if (pending && onScreen && !document.hidden) { var f = pending; pending = null; f(); }
+  }
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (en) { onScreen = en[0].isIntersecting; resume(); }, { threshold: 0.1 })
+      .observe(wordEl.closest(".b-intro"));
+  }
+  document.addEventListener("visibilitychange", resume);
+
+  var index = 0;
+
+  function typeWord() {
+    var word = WORDS[index], i = 0;
+    (function next() {
+      if (i >= word.length) { later(deleteWord, HOLD_MS); return; }
+      var ch = document.createElement("span");
+      ch.className = "b-intro__char";
+      ch.textContent = word.charAt(i++);
+      wordEl.appendChild(ch);
+      void ch.offsetWidth;            /* commit opacity:0 so the fade runs */
+      ch.classList.add("is-in");
+      later(next, TYPE_MS);
+    })();
+  }
+
+  function deleteWord() {
+    var chars = wordEl.children, k = chars.length - 1;
+    var step = DELETE_MS / chars.length;
+    (function next() {
+      if (k < 0) {
+        wordEl.textContent = "";
+        index = (index + 1) % WORDS.length;
+        typeWord();
+        return;
+      }
+      var ch = chars[k--];
+      ch.style.transitionDuration = step + "ms";
+      ch.classList.remove("is-in");
+      later(next, step);
+    })();
+  }
+
+  later(typeWord, START_MS);
+})();
+</script>
+</body>
+</html>
